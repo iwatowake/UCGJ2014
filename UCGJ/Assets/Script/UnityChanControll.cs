@@ -7,15 +7,25 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	[System.Serializable]
 	public class Player{
 		public int id;
-		public int power = 100;
+		[SerializeField]
+		private int power = 100;
+		public GaugeController gauge;
+		public CounterController count;
+		public BillBoard bb;
 		public int Power{
 			get{
 				return power;
 			}
+			set{
+				power = value;
+				bb.setPower(value);
+				gauge.setGauge(value);
+				count.setPoints(value);
+			}
 		}
 
 		public void AddPower(int pow){
-			power += pow;
+			Power = Power + pow;
 		}
 		public string getVString(){
 			return "Vertical" + id;
@@ -27,18 +37,13 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			return "ButtonA" + id;
 		}
 	}
+
+
 	public void Damage(int pow){
 		player.AddPower(-pow);
 
 		setState(UCState.OnDamage,1.5f);
 		spawnUni8(pow);
-//		GameObject obj = (GameObject)Instantiate(particlePrefab,this.transform.position,this.transform.rotation);
-//		ParticleSystem p = obj.GetComponent<ParticleSystem>();
-//		p.emissionRate = pow;
-//		if(player.Power < 0){
-//			Destroy(this.gameObject);
-//		}
-//		Destroy(obj,5.0f);
 	}
 	public void GetPower(int pow){
 		player.AddPower(pow);
@@ -67,7 +72,6 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	private CharacterController controller;
 	public float charge;
 	private bool LookRight;
-	private BillBoard bb;
 	private Animator animator;
 	private Vector3 baseScale;
 
@@ -87,20 +91,30 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	// Use this for initialization
 	void Start () {
 		controller = this.GetComponent<CharacterController>();
-		bb = GetComponentInChildren<BillBoard>();
+		player.bb = GetComponentInChildren<BillBoard>();
 		baseScale = this.transform.localScale;
 		charge = 0;
+
+		setSE ();
 	}
-	
+	void setSE(){
+		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("power26","Charge"));
+	}
+
+	private bool isInit = false;
 	// Update is called once per frame
 	void Update () {
+		if(!isInit){
+			player.Power = player.Power;
+			isInit = true;
+		}
 		float h = Input.GetAxis(player.getHString()) *  speed;
 		float v = Input.GetAxis(player.getVString()) * speed;
 
 		if(h > 0.1f){
-			bb.lookRight();
+			player.bb.lookRight();
 		}else if (h < -0.1f){
-			bb.lookLeft();
+			player.bb.lookLeft();
 		}
 
 		switch(ucState){
@@ -110,7 +124,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 				setState(UCState.Charge);
 				charge = 0;
 			}else{
-				bb.SetRun(Mathf.Abs(h)> 0.1f || Mathf.Abs(v) > 0.1f);
+				player.bb.SetRun(Mathf.Abs(h)> 0.1f || Mathf.Abs(v) > 0.1f);
 				controller.Move(new Vector3(h,gravity,v) * Time.deltaTime);
 			}
 			break;
@@ -118,13 +132,13 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			if(!Input.GetButton(player.getChargeString())){
 				attackDir = new Vector3(h,0,v);
 				if(attackDir.magnitude <= 0.01f){
-					if(bb.IsRight()){
+					if(player.bb.IsRight()){
 						attackDir = Vector3.right;
 					}else{
 						attackDir = Vector3.left;
 					}
 				}
-				bb.SetRun(true);
+				player.bb.SetRun(true);
 				attackPow = Mathf.Clamp(charge * 2,1.0f,3.0f) * speed;
 				setState(UCState.Attack);
 			}else{
@@ -163,13 +177,13 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			if(uc.ucState == UCState.Attack
 			   && (this.ucState == UCState.Idle||this.ucState == UCState.Charge)){
 				this.Damage(uc.player.Power/20 + 1);
-				this.OnCollImpact(-c.normal * uc.player.power / 10f);
+				this.OnCollImpact(-c.normal * uc.player.Power / 10f);
 				return;
 			}else
 			if(this.ucState == UCState.Attack
 			   && (uc.ucState == UCState.Idle||uc.ucState == UCState.Charge)){
 				uc.Damage(this.player.Power/20 + 1);
-				uc.OnCollImpact(-c.normal * uc.player.power / 10f);
+				uc.OnCollImpact(-c.normal * uc.player.Power / 10f);
 				return;
 			}
 		}
@@ -191,26 +205,27 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		ucState = st;
 		switch(st){
 		case UCState.Idle:
-			bb.setIdle();
+			player.bb.setIdle();
 			break;
 		case UCState.Charge:
+			SoundPlayer.Instance.playSE("Charge");
 			break;
 		case UCState.Attack:
 			break;
 		case UCState.OnDamage:
-			bb.setDamage();
+			player.bb.setDamage();
 			if(param > 0){
 				Invoke ("ReturnIdle",param);
 			}
 			break;
 		case UCState.Pararaise:
-			bb.setDamage();
+			player.bb.setDamage();
 			if(param > 0){
 				Invoke ("ReturnIdle",param);
 			}
 			break;
 		case UCState.Impacted:
-			bb.setDamage();
+			player.bb.setDamage();
 			break;
 		}
 	}

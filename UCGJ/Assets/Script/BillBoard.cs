@@ -33,7 +33,9 @@ public class BillBoard : MonoBehaviour {
 		animator.ResetTrigger("DamageTrigger");
 		animator.SetTrigger("IdlingTrigger");
 	}
-
+	public void setPower(int pow){
+		animator.SetInteger("Power",pow);
+	}
 	// Update is called once per frame
 	void Update () {
 	}
