@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
-public class UnityChanControll : MonoBehaviour {
+public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	[System.Serializable]
 	public class Player{
 		public int id;
@@ -40,4 +40,9 @@ public class UnityChanControll : MonoBehaviour {
 			this.rigidbody.AddForce(child.forward * v + child.right *	h,ForceMode.Impulse);
 		}
 	}
+
+	public void OnCollDamage(int damage){}
+	public void OnCollPararise(float sec){}
+	public void OnCollImpact(Vector3 pow){}
+
 }
