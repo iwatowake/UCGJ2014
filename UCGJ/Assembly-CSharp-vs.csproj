@@ -46,24 +46,24 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\BillBoard.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\AudioSourceController.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\BlockController.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\BrokenBlockController.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\CameraController.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\CoinController.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\Demo.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\IntroCameraController.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\LoadingController.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\Loop.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\PointController.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\SceneNameAttribute.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\StartController.cs" />
-     <Compile Include="Assets\UnityChan2D\Demo\Scripts\TimeController.cs" />
-     <Compile Include="Assets\UnityChan2D\Scripts\UnityChan2DController.cs" />
-     <Compile Include="Assets\UnityChanControll.cs" />
-     <Compile Include="Assets\UnityChanControll1.cs" />
-     <None Include="Assets\UnityChan2D\Demo\Sounds\Voice\unity-chan_voice_list.txt" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\AudioSourceController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\BlockController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\BrokenBlockController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\CameraController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\CoinController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\Demo.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\IntroCameraController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\LoadingController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\Loop.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\PointController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\SceneNameAttribute.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\StartController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Demo\Scripts\TimeController.cs" />
+     <Compile Include="Assets\ImportAsset\UnityChan2D\Scripts\UnityChan2DController.cs" />
+     <Compile Include="Assets\Script\BillBoard.cs" />
+     <Compile Include="Assets\Script\UnityChanControll.cs" />
+     <Compile Include="Assets\Script\UnityChanControll1.cs" />
+     <None Include="Assets\ImportAsset\UnityChan2D\Demo\Sounds\Voice\unity-chan_voice_list.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
