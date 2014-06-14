@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eaabd601e3bcdce4188d33cacaef85b3
+guid: 4426c85b927e2c6458b8ffc5cd352b4c
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -36,49 +36,29 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 96
+  spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: unity3_0
+    - name: UnityChan_8bit_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 96
-        height: 96
+        x: 32
+        y: 92
+        width: 27
+        height: 27
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: unity3_1
+    - name: UnityChan_8bit_1
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 96
-        height: 96
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: unity3_2
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 96
-        height: 96
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: unity3_3
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 96
-        height: 96
+        x: 87
+        y: 92
+        width: 27
+        height: 27
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
