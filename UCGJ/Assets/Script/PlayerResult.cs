@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerResult : MonoBehaviour
 {
-    public int score;
+    public GUIText scoreGUIText;
 
     // Use this for initialization
     void Start()
