@@ -4,6 +4,9 @@ using System.Collections;
 [RequireComponent(typeof(CharacterController))]
 public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	private const float gravity = -9.8f;
+	private const int BIG_SPEED = 4;
+	private const int NORM_SPEED = 10;
+	private const int LITTLE_SPEED = 20;
 	[System.Serializable]
 	public class Player{
 		public int id;
@@ -48,10 +51,13 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	public void GetPower(int pow){
 		player.AddPower(pow);
 		if(player.Power > 50){
+			speed = BIG_SPEED;
 			setSize(2.0f);
-		}else if(player.Power > 30){
+		}else if(player.Power > 20){
+			speed = NORM_SPEED;
 			setSize(1.0f);
 		}else{
+			speed = LITTLE_SPEED;
 			setSize(0.5f);
 		}
 
@@ -61,6 +67,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		Charge,
 		Attack,
 		OnDamage,
+		AfterDamage,
 		Pararaise,
 		Impacted
 	}
@@ -75,7 +82,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	private Animator animator;
 	private Vector3 baseScale;
 
-	public int speed;
+	private int speed;
 	private UCState ucState;
 
 	public GameObject particlePrefab;
@@ -86,6 +93,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 
 	void Awake(){
 		this.tag = "Player";
+		speed = NORM_SPEED;
 	}
 
 	// Use this for initialization
@@ -95,10 +103,17 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		baseScale = this.transform.localScale;
 		charge = 0;
 
+		GetPower(0);
 		setSE ();
 	}
 	void setSE(){
 		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("power26","Charge"));
+		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("attack00","PreAttack"));
+		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1092","Damege0"));
+		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1093","Damege1"));
+		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1094","Damege2"));
+		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1095","Damege3"));
+		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1091","Damege4"));
 	}
 
 	private bool isInit = false;
@@ -121,6 +136,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		case UCState.Idle:
 
 			if(Input.GetButtonDown(player.getChargeString())){
+				player.bb.SetRun(true);
 				setState(UCState.Charge);
 				charge = 0;
 			}else{
@@ -158,6 +174,8 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			break;
 		case UCState.OnDamage:
 			break;
+		case UCState.AfterDamage:
+			break;
 		case UCState.Pararaise:
 			break;
 		case UCState.Impacted:
@@ -176,12 +194,14 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			UnityChanControll uc = c.transform.GetComponent<UnityChanControll>();
 			if(uc.ucState == UCState.Attack
 			   && (this.ucState == UCState.Idle||this.ucState == UCState.Charge)){
+				SoundPlayer.Instance.playSE("Damege" + Random.Range(0,5));
 				this.Damage(uc.player.Power/20 + 1);
 				this.OnCollImpact(-c.normal * uc.player.Power / 10f);
 				return;
 			}else
 			if(this.ucState == UCState.Attack
 			   && (uc.ucState == UCState.Idle||uc.ucState == UCState.Charge)){
+				SoundPlayer.Instance.playSE("Damege" + Random.Range(0,5));
 				uc.Damage(this.player.Power/20 + 1);
 				uc.OnCollImpact(-c.normal * uc.player.Power / 10f);
 				return;
@@ -202,18 +222,26 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		if(ucState == st){
 			return;
 		}
+		if(ucState == UCState.Attack){
+			player.bb.smoke.SetActive(false);
+		}
 		ucState = st;
 		switch(st){
 		case UCState.Idle:
 			player.bb.setIdle();
 			break;
 		case UCState.Charge:
+			player.bb.smoke.SetActive(true);
 			SoundPlayer.Instance.playSE("Charge");
 			break;
 		case UCState.Attack:
+			SoundPlayer.Instance.playSE("PreAttack");
 			break;
 		case UCState.OnDamage:
 			player.bb.setDamage();
+			Invoke ("SetAfterDamage",param);
+			break;
+		case UCState.AfterDamage:
 			if(param > 0){
 				Invoke ("ReturnIdle",param);
 			}
@@ -237,26 +265,39 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		CancelInvoke("ReturnIdle");
 		setState(UCState.Idle);
 	}
-
+	void SetAfterDamage(){
+		setState(UCState.AfterDamage,1.5f);
+	}
 	public GameObject uni8Coin;
 	private void spawnUni8(int num){
 		for(int i = 0; i < num; i++){
-			int x = Random.Range(-5,5);
-			int y = Random.Range(0,5);
-			int z = Random.Range(-5,5);
+			int x = Random.Range(-1,3) * 4;
+			int y = 5;
+			int z = Random.Range(-1,3) * 4;
 			Instantiate(uni8Coin,this.transform.position + new Vector3(x,y,z),Quaternion.identity);
 		}
 	}
 	
 	public void OnCollDamage(int damage){
-		Damage(damage);
+		if(ucState == UCState.Idle || ucState == UCState.Charge){
+			Debug.Log ("CollD");
+			Damage(damage);
+			setState(UCState.OnDamage);
+		}
 	}
 	public void OnCollPararise(float sec){
-		setState(UCState.Pararaise);
+		Debug.Log ("CollP");
+		if(ucState == UCState.Idle || ucState == UCState.Charge){
+			setState(UCState.Pararaise);
+		}
 	}
+
 	public void OnCollImpact(Vector3 pow){
+		Debug.Log ("CollI");
 		impactPow = pow;
-		setState(UCState.Impacted);
+			if(ucState == UCState.Idle || ucState == UCState.Charge){
+				setState(UCState.Impacted);
+			}
 	}
 
 }

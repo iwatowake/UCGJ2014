@@ -133,11 +133,14 @@ public class Gimmick3 : MonoBehaviour {
 			timer += Time.deltaTime;
 		}
 	}
-	
+
+
 	//----------------------------------
 	// CollisionCallback
-	void OnTriggerEnter(Collider collider){
+	void OnTriggerStay(Collider collider){
+		Debug.Log ("Trigger3");
 		if (collider.gameObject.tag == "Player" && isHitEnable) {
+			Debug.Log ("Trigger3On");
 			UnityChanControll uc = collider.transform.GetComponent<UnityChanControll>();
 			uc.OnCollDamage(DAMAGE);
 		}

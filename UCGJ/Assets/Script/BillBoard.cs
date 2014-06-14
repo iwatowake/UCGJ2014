@@ -4,6 +4,8 @@ using System.Collections;
 public class BillBoard : MonoBehaviour {
 	private bool isReverse;
 	private Animator animator;
+
+	public GameObject smoke;
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator>();
