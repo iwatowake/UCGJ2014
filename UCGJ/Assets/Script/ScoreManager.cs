@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Manager : MonoBehaviour
+public class ScoreManager : MonoBehaviour
 {
     // Use this for initialization
     void Start ()
