@@ -1,15 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//! Gimmick0 Damage
+//! Gimmick0 ExplosionBlock
 public class Gimmick0 : MonoBehaviour {
-
-	public	int	damage=0;
-
 	void OnCollisionEnter(Collision collision){
 		if (collision.gameObject.tag == "Player") {
-			UnityChanControll uc = collision.transform.GetComponent<UnityChanControll>();
-			uc.OnCollDamage(damage);
-		}			
+			Destroy(gameObject);
+			Instantiate(Resources.Load("Gimmick/Gimmick01"), transform.position, new Quaternion());
+		}
 	}
 }
