@@ -31,13 +31,25 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		player.AddPower(-pow);
 
 		setState(UCState.OnDamage,1.5f);
-		GameObject obj = (GameObject)Instantiate(particlePrefab,this.transform.position,this.transform.rotation);
-		ParticleSystem p = obj.GetComponent<ParticleSystem>();
-		p.emissionRate = pow;
-		if(player.Power < 0){
-			Destroy(this.gameObject);
+		spawnUni8(pow);
+//		GameObject obj = (GameObject)Instantiate(particlePrefab,this.transform.position,this.transform.rotation);
+//		ParticleSystem p = obj.GetComponent<ParticleSystem>();
+//		p.emissionRate = pow;
+//		if(player.Power < 0){
+//			Destroy(this.gameObject);
+//		}
+//		Destroy(obj,5.0f);
+	}
+	public void GetPower(int pow){
+		player.AddPower(pow);
+		if(player.Power > 50){
+			setSize(2.0f);
+		}else if(player.Power > 30){
+			setSize(1.0f);
+		}else{
+			setSize(0.5f);
 		}
-		Destroy(obj,5.0f);
+
 	}
 	private enum UCState{
 		Idle,
@@ -57,6 +69,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	private bool LookRight;
 	private BillBoard bb;
 	private Animator animator;
+	private Vector3 baseScale;
 
 	public int speed;
 	private UCState ucState;
@@ -75,6 +88,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	void Start () {
 		controller = this.GetComponent<CharacterController>();
 		bb = GetComponentInChildren<BillBoard>();
+		baseScale = this.transform.localScale;
 		charge = 0;
 	}
 	
@@ -103,7 +117,15 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		case UCState.Charge:
 			if(!Input.GetButton(player.getChargeString())){
 				attackDir = new Vector3(h,0,v);
-				attackPow = Mathf.Clamp(charge/3.0f,1.0f,3.0f) * speed;
+				if(attackDir.magnitude <= 0.01f){
+					if(bb.IsRight()){
+						attackDir = Vector3.right;
+					}else{
+						attackDir = Vector3.left;
+					}
+				}
+				bb.SetRun(true);
+				attackPow = Mathf.Clamp(charge * 2,1.0f,3.0f) * speed;
 				setState(UCState.Attack);
 			}else{
 				charge += Time.deltaTime;
@@ -112,8 +134,8 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			break;
 		case UCState.Attack:
 			if(charge > 0){
-				controller.Move(attackDir*Time.deltaTime * speed * attackPow);
-				charge -= Time.deltaTime * 2;
+				controller.Move(attackDir.normalized*Time.deltaTime * attackPow);
+				charge -= Time.deltaTime * 3;
 			}else{
 				setState(UCState.Idle);
 				attackDir = Vector3.zero;
@@ -192,10 +214,23 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			break;
 		}
 	}
+	private void setSize(float mul){
+		this.transform.localScale = baseScale * mul;
+	}
 
 	void ReturnIdle(){
 		CancelInvoke("ReturnIdle");
 		setState(UCState.Idle);
+	}
+
+	public GameObject uni8Coin;
+	private void spawnUni8(int num){
+		for(int i = 0; i < num; i++){
+			int x = Random.Range(-5,5);
+			int y = Random.Range(0,5);
+			int z = Random.Range(-5,5);
+			Instantiate(uni8Coin,this.transform.position + new Vector3(x,y,z),Quaternion.identity);
+		}
 	}
 	
 	public void OnCollDamage(int damage){
