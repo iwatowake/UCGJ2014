@@ -1,18 +1,10 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: a782b3a1d82da0b4caf23ca9c0cadd12
-=======
-guid: 36da4fb70bf49914c8f3cfbce5386f11
->>>>>>> b4fd81b6463ca992c317965201e59f252349f6d4
+guid: eaabd601e3bcdce4188d33cacaef85b3
 TextureImporter:
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-<<<<<<< HEAD
     enableMipMap: 0
-=======
-    enableMipMap: 1
->>>>>>> b4fd81b6463ca992c317965201e59f252349f6d4
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -32,7 +24,6 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
-<<<<<<< HEAD
     aniso: 1
     mipBias: -1
     wrapMode: 1
@@ -40,28 +31,18 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-=======
-    aniso: -1
-    mipBias: -1
-    wrapMode: -1
-  nPOTScale: 1
-  lightmap: 0
-  compressionQuality: 50
-  spriteMode: 0
->>>>>>> b4fd81b6463ca992c317965201e59f252349f6d4
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-<<<<<<< HEAD
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: unitychan_0
+    - name: unity3_0
       rect:
         serializedVersion: 2
         x: 0
@@ -71,7 +52,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: unitychan_1
+    - name: unity3_1
       rect:
         serializedVersion: 2
         x: 96
@@ -81,7 +62,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: unitychan_2
+    - name: unity3_2
       rect:
         serializedVersion: 2
         x: 192
@@ -91,12 +72,15 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-=======
-  alphaIsTransparency: 0
-  textureType: -1
-  buildTargetSettings: []
-  spriteSheet:
-    sprites: []
->>>>>>> b4fd81b6463ca992c317965201e59f252349f6d4
+    - name: unity3_3
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

@@ -3,9 +3,10 @@ using System.Collections;
 
 public class BillBoard : MonoBehaviour {
 	private bool isReverse;
+	private Animator animator;
 	// Use this for initialization
 	void Start () {
-		this.transform.rotation = Camera.main.transform.rotation;
+		animator = GetComponent<Animator>();
 		lookRight();
 	}
 	public void lookRight(){
@@ -13,6 +14,16 @@ public class BillBoard : MonoBehaviour {
 	}
 	public void lookLeft(){
 		this.transform.rotation = Camera.main.transform.rotation;
+	}
+
+	public void SetRun(bool isRun){
+		animator.SetBool("IsRun",isRun);
+	}
+	public void setDamage(){
+		animator.SetTrigger("DamageTrigger");
+	}
+	public void setIdle(){
+		animator.SetTrigger("IdlingTrigger");
 	}
 
 	// Update is called once per frame
