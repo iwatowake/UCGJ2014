@@ -3,13 +3,12 @@ using System.Collections;
 
 public class Gimmick0 : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public	int	damage;
+
+	void OnCollisionEnter(Collision collision){
+		if (collision.gameObject.tag == "Player") {
+			UnityChanControll uc = collision.transform.GetComponent<UnityChanControll>();
+			uc.OnCollDamage(damage);
+		}			
 	}
 }
