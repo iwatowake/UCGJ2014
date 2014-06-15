@@ -20,7 +20,7 @@ public class CoinScript : MonoBehaviour {
 			SoundPlayer.Instance.playSE("GetUni8");	
 			UnityChanControll uc = c.transform.GetComponent<UnityChanControll>();
 			if(uc.ucState == UnityChanControll.UCState.Idle){
-				uc.GetPower(1);
+				uc.GetPower(5);
 				GameObject obj = (GameObject)Instantiate(GetParticle,this.transform.position,this.transform.rotation);
 				Destroy(obj,1.0f);
 				Destroy (this.gameObject);
