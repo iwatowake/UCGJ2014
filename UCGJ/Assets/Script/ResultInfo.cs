@@ -8,6 +8,12 @@ public class ResultInfo : SingletonMonoBehaviour<ResultInfo> {
 		public int playerNum;
 		public Sprite sp;
 		public int score;
+
+		public ResultData(int playerNum, Sprite sp, int score){
+			this.playerNum = playerNum;
+			this.sp = sp;
+			this.score = score;
+		}
 	}
 
 	public List<ResultData> data;

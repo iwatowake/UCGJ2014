@@ -12,11 +12,7 @@ public class ScoreManager : MonoBehaviour
         // dummy data
         for (int i = 0; i < 4; i++)
         {
-            var resultData = new ResultInfo.ResultData();
-            resultData.playerNum = i;
-//            resultData.sp = Sprite.Create();
-            resultData.score = i * 100;
-            resultInfo.data.Add(resultData);
+			resultInfo.data.Add(new ResultInfo.ResultData(i, null, i * 100));
         }
 
 

@@ -62,10 +62,12 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			setSize(0.5f);
 		}else{
 			SoundPlayer.Instance.playSE("Death");
+			GameStateManager.Instance.setDeathList(player.id,player.Power);
+			Destroy (this.gameObject);
 		}
 
 	}
-	private enum UCState{
+	public enum UCState{
 		Idle,
 		Charge,
 		Attack,
@@ -86,7 +88,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	private Vector3 baseScale;
 
 	private int speed;
-	private UCState ucState;
+	public UCState ucState;
 
 	public GameObject particlePrefab;
 
