@@ -16,8 +16,8 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager> {
 	void Start () {
 		DontDestroyOnLoad(this);
 
-//		GameObject.Instantiate(stages[PlayerPrefs.GetInt(STAGE_KEY,0)],Vector3.zero,Quaternion.identity);
-		GameObject.Instantiate(stages[5],Vector3.zero,Quaternion.identity);
+		GameObject.Instantiate(stages[PlayerPrefs.GetInt(STAGE_KEY,0)],Vector3.zero,Quaternion.identity);
+//		GameObject.Instantiate(stages[5],Vector3.zero,Quaternion.identity);
 		PlayerNum = GameObject.FindObjectsOfType<UnityChanControll>().Length;
 	}
 

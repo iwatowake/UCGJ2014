@@ -46,7 +46,7 @@ public class StageSelectManager : MonoBehaviour {
 
 	void Update () {
 
-		if (Input.GetButtonDown ("ButtonA1")) {
+		if (Input.GetButtonDown ("ButtonA0")) {
 			PlayerPrefs.SetInt (GameStateManager.STAGE_KEY, 0 + nowSelect);
 
 			int plNum = PlayerPrefs.GetInt(GameStateManager.PLAYER_NUM_KEY);
@@ -54,10 +54,13 @@ public class StageSelectManager : MonoBehaviour {
 			switch(plNum)
 			{
 			case 2:
+				Application.LoadLevel("Main2Player");
 				break;
 			case 3:
+				Application.LoadLevel("Main3Player");
 				break;
 			case 4:
+				Application.LoadLevel("Main4Player");
 				break;
 			}
 
