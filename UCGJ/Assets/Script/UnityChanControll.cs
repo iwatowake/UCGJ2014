@@ -22,8 +22,8 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			set{
 				power = value;
 				bb.setPower(value);
-//				gauge.setGauge(value);
-//					count.setPoints(value);
+				gauge.setGauge(value);
+				count.setPoints(value);
 			}
 		}
 
@@ -162,7 +162,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 					}
 				}
 				player.bb.SetRun(true);
-				attackPow = Mathf.Clamp(charge * 2,1.0f,3.0f) * speed;
+				attackPow = Mathf.Clamp(charge * 2,1.0f,4.0f) * speed;
 				setState(UCState.Attack);
 			}else{
 				charge += Time.deltaTime;
