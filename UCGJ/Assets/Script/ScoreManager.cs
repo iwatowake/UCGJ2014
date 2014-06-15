@@ -14,6 +14,7 @@ public class ScoreManager : MonoBehaviour
         {
             var resultData = new ResultInfo.ResultData();
             resultData.playerNum = i;
+//            resultData.sp = Sprite.Create();
             resultData.score = i * 100;
             resultInfo.data.Add(resultData);
         }
@@ -24,6 +25,7 @@ public class ScoreManager : MonoBehaviour
         for (int i = 0; i < objs.Length; i++)
         {
             objs[i].scoreGUIText.text = "" + resultDataList[i].score;
+//            objs[i].faceGUITexture.texture = resultDataList[i].sp.texture;
         }
     }
 
