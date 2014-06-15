@@ -32,6 +32,8 @@ public class Gimmick1 : MonoBehaviour {
 	public	ParticleSystem	spark		= null;
 	public	ParticleSystem	aleart		= null;
 
+	public	AudioClip[]	se;
+
 	void Update()	
 	{
 		switch (state) 
@@ -111,11 +113,21 @@ public class Gimmick1 : MonoBehaviour {
 	// aleart
 	void state_aleart_init()
 	{
+		audio.clip = se [0];
 		aleart.Play ();
 		state++;
 	}
 	void state_aleart_wait()
 	{
+		if (!audio.isPlaying) 
+		{
+//			if(seCount<SE_MAX)
+//			{
+				audio.Play();
+			//	seCount++;
+//			}
+		}
+
 		if (aleart.isStopped) 
 		{
 			state = STATE.on_init;
@@ -126,6 +138,7 @@ public class Gimmick1 : MonoBehaviour {
 	// on
 	void state_on_init()
 	{
+		audio.clip = se [1];
 		Color col = renderer.material.color;
 		col.a = 0.8f;
 		renderer.material.color = col;
@@ -136,6 +149,11 @@ public class Gimmick1 : MonoBehaviour {
 	}
 	void state_on_wait()
 	{
+		if (!audio.isPlaying) 
+		{
+			audio.Play();
+		}
+
 		if (timer > TIME_ON) {
 			state = STATE.off_init;
 		} else {

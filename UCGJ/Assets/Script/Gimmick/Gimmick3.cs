@@ -31,8 +31,10 @@ public class Gimmick3 : MonoBehaviour {
 	
 	public	ParticleSystem	spray		= null;
 	public	ParticleSystem	aleart		= null;
-	
-	void Update()	
+
+	public	AudioClip[]		se;
+
+	void Update()
 	{
 		switch (state) 
 		{
@@ -105,11 +107,17 @@ public class Gimmick3 : MonoBehaviour {
 	// aleart
 	void state_aleart_init()
 	{
+		audio.clip = se [0];
 		aleart.Play ();
 		state++;
 	}
 	void state_aleart_wait()
 	{
+		if (!audio.isPlaying) 
+		{
+			audio.Play();
+		}
+
 		if (aleart.isStopped) 
 		{
 			state = STATE.on_init;
@@ -120,6 +128,7 @@ public class Gimmick3 : MonoBehaviour {
 	// on
 	void state_on_init()
 	{
+		audio.clip = se [1];
 		isHitEnable = true;
 		spray.particleSystem.Play ();
 		timer = 0;
@@ -127,6 +136,10 @@ public class Gimmick3 : MonoBehaviour {
 	}
 	void state_on_wait()
 	{
+		if (!audio.isPlaying) 
+		{
+			audio.Play();
+		}
 		if (timer > TIME_ON) {
 			state = STATE.off_init;
 		} else {
