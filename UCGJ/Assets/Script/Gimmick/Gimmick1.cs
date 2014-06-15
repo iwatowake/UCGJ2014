@@ -19,7 +19,7 @@ public class Gimmick1 : MonoBehaviour {
 	}
 
 	public	float	START_TIME_OFFSET 	= 0.0f;
-	const	float	TIME_OFF			= 15.0f;
+	const	float	TIME_OFF			= 5.0f;
 	const	float	TIME_ON				= 3.0f;
 			float	timer				= 0.0f;
 
@@ -29,10 +29,17 @@ public class Gimmick1 : MonoBehaviour {
 
 	const	float	EFFECTSEC			= 3.0f;
 
+			int		aleartCount			= 0;
+	const	int		ALEART_MAX 			= 2;
+
 	public	ParticleSystem	spark		= null;
 	public	ParticleSystem	aleart		= null;
 
 	public	AudioClip[]	se;
+
+	void Start(){
+		audio.volume = 0.25f;
+	}
 
 	void Update()	
 	{
@@ -121,15 +128,16 @@ public class Gimmick1 : MonoBehaviour {
 	{
 		if (!audio.isPlaying) 
 		{
-//			if(seCount<SE_MAX)
-//			{
+			if(aleartCount<ALEART_MAX)
+			{
 				audio.Play();
-			//	seCount++;
-//			}
+				aleartCount++;
+			}
 		}
 
 		if (aleart.isStopped) 
 		{
+			aleartCount = 0;
 			state = STATE.on_init;
 		}
 	}

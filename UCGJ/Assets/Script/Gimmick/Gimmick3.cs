@@ -32,7 +32,14 @@ public class Gimmick3 : MonoBehaviour {
 	public	ParticleSystem	spray		= null;
 	public	ParticleSystem	aleart		= null;
 
+	int		aleartCount			= 0;
+	const	int		ALEART_MAX 			= 2;
+
 	public	AudioClip[]		se;
+
+	void Start(){
+		audio.volume = 0.25f;
+	}
 
 	void Update()
 	{
@@ -115,11 +122,16 @@ public class Gimmick3 : MonoBehaviour {
 	{
 		if (!audio.isPlaying) 
 		{
-			audio.Play();
+			if(aleartCount<ALEART_MAX)
+			{
+				audio.Play();
+				aleartCount++;
+			}
 		}
 
 		if (aleart.isStopped) 
 		{
+			aleartCount = 0;
 			state = STATE.on_init;
 		}
 	}
