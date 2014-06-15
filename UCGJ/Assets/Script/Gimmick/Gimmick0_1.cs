@@ -11,6 +11,11 @@ public class Gimmick0_1 : MonoBehaviour {
 
 			bool	isDamageEnable	= true;
 
+	void Start(){
+		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("bomb", "bomb"));
+        SoundPlayer.Instance.playSE("bomb");
+	}
+
 	void Update () {
 		timer += Time.deltaTime;
 		if (timer > LIFETIME) 
