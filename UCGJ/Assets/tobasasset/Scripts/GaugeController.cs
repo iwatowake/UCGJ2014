@@ -17,9 +17,10 @@ public class GaugeController : MonoBehaviour {
 //		this.transform.localScale = new Vector3(range, this.transform.localScale.y, this.transform.localScale.z);
 	}
 
-	public void setGauge(float minity){
+	public void setGauge(int minity){
 		float range;
-		range = minity / minityMax;
+		range = (float)minity / (float)minityMax;
+        Debug.Log("range:" + range);
 		if (range < 0) range = 0;
 		this.transform.localScale = new Vector3(range, this.transform.localScale.y, this.transform.localScale.z);
 	}
