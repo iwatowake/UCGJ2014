@@ -23,7 +23,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 				power = value;
 				bb.setPower(value);
 //				gauge.setGauge(value);
-//				count.setPoints(value);
+//					count.setPoints(value);
 			}
 		}
 
@@ -62,8 +62,8 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			setSize(0.5f);
 		}else{
 			SoundPlayer.Instance.playSE("Death");
-			GameStateManager.Instance.setDeathList(player.id,player.Power);
 			Destroy (this.gameObject);
+			GameStateManager.Instance.setDeathList(player.id,player.Power);
 		}
 
 	}
@@ -202,13 +202,13 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 
 			UnityChanControll uc = c.transform.GetComponent<UnityChanControll>();
 			if(uc.ucState == UCState.Attack
-			   && (this.ucState == UCState.Idle||this.ucState == UCState.Charge)){
+			   && (this.ucState == UCState.Idle||this.ucState == UCState.Charge||uc.ucState == UCState.Pararaise)){
 				this.Damage(uc.player.Power/20 + 1);
 				this.OnCollImpact(-c.normal * uc.player.Power / 10f);
 				return;
 			}else
 			if(this.ucState == UCState.Attack
-			   && (uc.ucState == UCState.Idle||uc.ucState == UCState.Charge)){
+				  && (uc.ucState == UCState.Idle||uc.ucState == UCState.Charge||uc.ucState == UCState.Pararaise)){
 				uc.Damage(this.player.Power/20 + 1);
 				uc.OnCollImpact(-c.normal * uc.player.Power / 10f);
 				return;
@@ -231,6 +231,9 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		}
 		if(ucState == UCState.Attack){
 			player.bb.smoke.SetActive(false);
+		}
+		if(ucState == UCState.Pararaise){
+			player.bb.star.SetActive(false);
 		}
 		ucState = st;
 		switch(st){
@@ -256,9 +259,8 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			break;
 		case UCState.Pararaise:
 			player.bb.setDamage();
-			if(param > 0){
-				Invoke ("ReturnIdle",param);
-			}
+			player.bb.star.SetActive(true);
+			Invoke ("ReturnIdle",param);
 			break;
 		case UCState.Impacted:
 			player.bb.setDamage();
@@ -290,13 +292,13 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		if(ucState == UCState.Idle || ucState == UCState.Charge){
 			Debug.Log ("CollD:" + damage);
 			Damage(damage);
-			setState(UCState.OnDamage);
+			setState(UCState.OnDamage,damage);
 		}
 	}
 	public void OnCollPararise(float sec){
-		Debug.Log ("CollP:" + sec);
 		if(ucState == UCState.Idle || ucState == UCState.Charge){
-			setState(UCState.Pararaise);
+			Debug.Log ("CollP:" + sec);
+			setState(UCState.Pararaise,sec);
 		}
 	}
 

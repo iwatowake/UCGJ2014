@@ -163,7 +163,7 @@ public class Gimmick1 : MonoBehaviour {
 
 	//----------------------------------
 	// CollisionCallback
-	void OnTriggerEnter(Collider collider){
+	void OnTriggerStay(Collider collider){
 		if (collider.gameObject.tag == "Player" && isHitEnable) {
 			UnityChanControll uc = collider.transform.GetComponent<UnityChanControll>();
 			uc.OnCollPararise(EFFECTSEC);

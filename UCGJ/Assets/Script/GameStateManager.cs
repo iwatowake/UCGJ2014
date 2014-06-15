@@ -14,11 +14,17 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager> {
 	void Start () {
 		DontDestroyOnLoad(this);
 
-		GameObject.Instantiate(stages[PlayerPrefs.GetInt(STAGE_KEY)],Vector3.zero,Quaternion.identity);
+//		GameObject.Instantiate(stages[PlayerPrefs.GetInt(STAGE_KEY,0)],Vector3.zero,Quaternion.identity);
+		GameObject.Instantiate(stages[5],Vector3.zero,Quaternion.identity);
 		PlayerNum = GameObject.FindObjectsOfType<UnityChanControll>().Length;
 	}
 
 	public void setDeathList(int id, int score){
+		foreach(ResultInfo.ResultData dat in ResultInfo.Instance.data){
+			if(id == dat.playerNum){
+				return;
+			}
+		}
 		if(score > 50){
 			ResultInfo.Instance.data.Add(new ResultInfo.ResultData(id,big,score));
 		}else if(score > 15){
@@ -34,11 +40,28 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager> {
 		}
 	}
 
+	public void setSurviveList(int id, int score){
+		foreach(ResultInfo.ResultData dat in ResultInfo.Instance.data){
+			if(id == dat.playerNum){
+				return;
+			}
+		}
+		if(score > 50){
+			ResultInfo.Instance.data.Add(new ResultInfo.ResultData(id,big,score));
+		}else if(score > 15){
+			ResultInfo.Instance.data.Add(new ResultInfo.ResultData(id,norm,score));
+		}else if(score > 0){
+			ResultInfo.Instance.data.Add(new ResultInfo.ResultData(id,little,score));
+		}else{
+			ResultInfo.Instance.data.Add(new ResultInfo.ResultData(id,death,score));
+		}
+	}
+
 	public void GameOver(){
 		UnityChanControll[] ucs = GameObject.FindObjectsOfType<UnityChanControll>();
 
 		foreach(UnityChanControll uc in ucs){
-			setDeathList(uc.player.id,uc.player.Power);
+			setSurviveList(uc.player.id,uc.player.Power);
 		}
 
 		Application.LoadLevel("Result");

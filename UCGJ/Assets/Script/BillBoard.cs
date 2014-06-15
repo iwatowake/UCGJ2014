@@ -6,6 +6,7 @@ public class BillBoard : MonoBehaviour {
 	private Animator animator;
 
 	public GameObject smoke;
+	public GameObject star;
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator>();

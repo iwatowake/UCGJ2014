@@ -10,24 +10,33 @@ public class ScoreManager : MonoBehaviour
 
 
         // dummy data
-        for (int i = 0; i < 4; i++)
-        {
-			resultInfo.data.Add(new ResultInfo.ResultData(i, null, i * 100));
-        }
+//        for (int i = 0; i < 4; i++)
+//        {
+//			resultInfo.data.Add(new ResultInfo.ResultData(i, null, i * 100));
+//       }
 
 
         var resultDataList = resultInfo.data.ToArray();
         PlayerResult[] objs = GameObject.FindObjectsOfType<PlayerResult>();
-        for (int i = 0; i < objs.Length; i++)
+        for (int i = 0; i < resultDataList.Length; i++)
         {
             objs[i].scoreGUIText.text = "" + resultDataList[i].score;
-//            objs[i].faceGUITexture.texture = resultDataList[i].sp.texture;
+            objs[i].faceGUITexture.texture = resultDataList[i].sp.texture;
         }
+
     }
 
     // Update is called once per frame
     void Update()
     {
+		if(Input.GetKeyDown (KeyCode.Space)){
+			resetGame();
+		}
 
     }
+
+	void resetGame(){
+		Destroy(GameStateManager.Instance.gameObject);
+		Application.LoadLevel(0);
+	}
 }

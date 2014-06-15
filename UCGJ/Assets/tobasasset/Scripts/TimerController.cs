@@ -56,6 +56,7 @@ public class TimerController : MonoBehaviour {
                 {
                     case 0:
                         SoundPlayer.Instance.playSE("Zero");
+					GameStateManager.Instance.GameOver();
                         break;
                     case 1:
                         SoundPlayer.Instance.playSE("One");
@@ -108,6 +109,7 @@ public class TimerController : MonoBehaviour {
 			Vector3 pos = objTens.transform.position;
 			objOnes.transform.position = new Vector3(0.5f * objOnes.transform.lossyScale.x + pos.x, pos.y, pos.z);
 		}
+
   //      Debug.Log("time10:" + tensPlace);
 
     }

@@ -12,7 +12,7 @@ public class ResultInfo : SingletonMonoBehaviour<ResultInfo> {
 		public ResultData(int playerNum, Sprite sp, int score){
 			this.playerNum = playerNum;
 			this.sp = sp;
-			this.score = score;
+			this.score = Mathf.Clamp (score * 5,0,1000);
 		}
 	}
 
