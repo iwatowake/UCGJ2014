@@ -7,6 +7,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	private const int BIG_SPEED = 4;
 	private const int NORM_SPEED = 10;
 	private const int LITTLE_SPEED = 20;
+
 	[System.Serializable]
 	public class Player{
 		public int id;
@@ -15,12 +16,15 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		public GaugeController gauge;
 		public CounterController count;
 		public BillBoard bb;
+		public Renderer progress;
 		public int Power{
 			get{
 				return power;
 			}
 			set{
 				power = value;
+				Debug.Log ("set Progress");
+				progress.material.SetFloat("_Progress",power / 160f);
 				bb.setPower(value);
 //				gauge.setGauge(value);
 //					count.setPoints(value);

@@ -21,15 +21,17 @@ public class ScoreManager : MonoBehaviour
         for (int i = 0; i < resultDataList.Length; i++)
         {
             objs[i].scoreGUIText.text = "" + resultDataList[i].score;
-            objs[i].faceGUITexture.texture = resultDataList[i].sp.texture;
-        }
+			//            objs[i].faceGUITexture.texture = resultDataList[i].sp.texture;
+            objs[i].faceGUITexture.sprite = resultDataList[i].sp;
+		}
 
     }
 
     // Update is called once per frame
     void Update()
     {
-		if(Input.GetKeyDown (KeyCode.Space)){
+		if (Event.current.type == EventType.KeyDown)
+		{
 			resetGame();
 		}
 
@@ -37,6 +39,6 @@ public class ScoreManager : MonoBehaviour
 
 	void resetGame(){
 		Destroy(GameStateManager.Instance.gameObject);
-		Application.LoadLevel(0);
+		Application.LoadLevel("TitleScene");
 	}
 }
