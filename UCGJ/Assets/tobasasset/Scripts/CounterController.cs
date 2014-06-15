@@ -50,12 +50,12 @@ public class CounterController : MonoBehaviour
     }
 
 	public void setPoints(int minity){
-		if (value <= 0)
+		if (minity <= 0)
 		{
-			value = 0;
+			minity = 0;
 		}
-		int onesPlace = value % 10;
-		int tensPlace = value / 10;
+		int onesPlace = minity % 10;
+		int tensPlace = minity / 10;
 		
 		SetSpriteRender(onesPlace,tensPlace);  // 子のスプライトを描画
 	}

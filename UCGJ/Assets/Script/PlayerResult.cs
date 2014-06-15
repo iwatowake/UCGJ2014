@@ -5,6 +5,8 @@ public class PlayerResult : MonoBehaviour
 {
     public GUIText scoreGUIText;
 
+    public GUITexture faceGUITexture;
+
     // Use this for initialization
     void Start()
     {
