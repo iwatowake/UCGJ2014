@@ -2,18 +2,13 @@
 using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
-public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
+public class TitleUnityChanControll : MonoBehaviour{
 	private const float gravity = -9.8f;
-	private const int BIG_SPEED = 4;
-	private const int NORM_SPEED = 10;
-	private const int LITTLE_SPEED = 20;
 	[System.Serializable]
 	public class Player{
 		public int id;
 		[SerializeField]
 		private int power = 100;
-		public GaugeController gauge;
-		public CounterController count;
 		public BillBoard bb;
 		public int Power{
 			get{
@@ -21,15 +16,9 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			}
 			set{
 				power = value;
-				bb.setPower(value);
-//				gauge.setGauge(value);
-//				count.setPoints(value);
 			}
 		}
 
-		public void AddPower(int pow){
-			Power = Power + pow;
-		}
 		public string getVString(){
 			return "Vertical" + id;
 		}
@@ -42,26 +31,6 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	}
 
 
-	public void Damage(int pow){
-		player.AddPower(-pow);
-
-		setState(UCState.OnDamage,1.5f);
-		spawnUni8(pow);
-	}
-	public void GetPower(int pow){
-		player.AddPower(pow);
-		if(player.Power > 50){
-			speed = BIG_SPEED;
-			setSize(2.0f);
-		}else if(player.Power > 20){
-			speed = NORM_SPEED;
-			setSize(1.0f);
-		}else{
-			speed = LITTLE_SPEED;
-			setSize(0.5f);
-		}
-
-	}
 	private enum UCState{
 		Idle,
 		Charge,
@@ -85,35 +54,27 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	private int speed;
 	private UCState ucState;
 
-	public GameObject particlePrefab;
-
 	private Vector3 attackDir = Vector3.zero;
 	private float attackPow = 0.0f;
 	private Vector3 impactPow;
 
 	void Awake(){
 		this.tag = "Player";
-		speed = NORM_SPEED;
+		speed = 10;
 	}
 
 	// Use this for initialization
 	void Start () {
 		controller = this.GetComponent<CharacterController>();
 		player.bb = GetComponentInChildren<BillBoard>();
-		baseScale = this.transform.localScale;
+		player.bb.setPower(player.Power);
 		charge = 0;
 
-		GetPower(0);
 		setSE ();
 	}
 	void setSE(){
 		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("power26","Charge"));
 		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("attack00","PreAttack"));
-		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1092","Damege0"));
-		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1093","Damege1"));
-		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1094","Damege2"));
-		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1095","Damege3"));
-		SoundPlayer.Instance.addSe(new SoundPlayer.AudioClipInfo("univ1091","Damege4"));
 	}
 
 	private bool isInit = false;
@@ -189,33 +150,20 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		}
 	}
 	void OnControllerColliderHit(ControllerColliderHit c){
-		if(c.transform.tag == "Player"){
-
-			UnityChanControll uc = c.transform.GetComponent<UnityChanControll>();
-			if(uc.ucState == UCState.Attack
-			   && (this.ucState == UCState.Idle||this.ucState == UCState.Charge)){
-				SoundPlayer.Instance.playSE("Damege" + Random.Range(0,5));
-				this.Damage(uc.player.Power/20 + 1);
-				this.OnCollImpact(-c.normal * uc.player.Power / 10f);
-				return;
-			}else
-			if(this.ucState == UCState.Attack
-			   && (uc.ucState == UCState.Idle||uc.ucState == UCState.Charge)){
-				SoundPlayer.Instance.playSE("Damege" + Random.Range(0,5));
-				uc.Damage(this.player.Power/20 + 1);
-				uc.OnCollImpact(-c.normal * uc.player.Power / 10f);
-				return;
+		if(ucState == UCState.Attack){
+			if(c.transform.name == "TwoPlayer"){
+				Destroy(c.gameObject);
+				Debug.Log ("2");
+			}
+			if(c.transform.name == "ThreePlayer"){
+				Destroy(c.gameObject);
+				Debug.Log ("3");
+			}
+			if(c.transform.name == "FourPlayer"){
+				Destroy(c.gameObject);
+				Debug.Log ("4");
 			}
 		}
-		else if(c.transform.tag == "obj"){
-			if(this.ucState == UCState.Attack){
-				setState(UCState.Idle);
-			}
-		}
-	}
-
-	void OnParticleCollision(){
-		player.AddPower(1);
 	}
 
 	private void setState(UCState st, float param = 0.0f){
@@ -257,10 +205,6 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			break;
 		}
 	}
-	private void setSize(float mul){
-		this.transform.localScale = baseScale * mul;
-	}
-
 	void ReturnIdle(){
 		CancelInvoke("ReturnIdle");
 		setState(UCState.Idle);
@@ -268,36 +212,4 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	void SetAfterDamage(){
 		setState(UCState.AfterDamage,1.5f);
 	}
-	public GameObject uni8Coin;
-	private void spawnUni8(int num){
-		for(int i = 0; i < num; i++){
-			int x = Random.Range(-1,3) * 4;
-			int y = 5;
-			int z = Random.Range(-1,3) * 4;
-			Instantiate(uni8Coin,this.transform.position + new Vector3(x,y,z),Quaternion.identity);
-		}
-	}
-	
-	public void OnCollDamage(int damage){
-		if(ucState == UCState.Idle || ucState == UCState.Charge){
-			Debug.Log ("CollD:" + damage);
-			Damage(damage);
-			setState(UCState.OnDamage);
-		}
-	}
-	public void OnCollPararise(float sec){
-		Debug.Log ("CollP:" + sec);
-		if(ucState == UCState.Idle || ucState == UCState.Charge){
-			setState(UCState.Pararaise);
-		}
-	}
-
-	public void OnCollImpact(Vector3 pow){
-		Debug.Log ("CollI:" + pow);
-		impactPow = pow;
-			if(ucState == UCState.Idle || ucState == UCState.Charge){
-				setState(UCState.Impacted);
-			}
-	}
-
 }

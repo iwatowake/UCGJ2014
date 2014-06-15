@@ -19,7 +19,7 @@ public class Gimmick1 : MonoBehaviour {
 	}
 
 	public	float	START_TIME_OFFSET 	= 0.0f;
-	const	float	TIME_OFF			= 5.0f;
+	const	float	TIME_OFF			= 15.0f;
 	const	float	TIME_ON				= 3.0f;
 			float	timer				= 0.0f;
 

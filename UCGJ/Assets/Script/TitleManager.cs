@@ -13,7 +13,7 @@ public class TitleManager : MonoBehaviour
     {
         if (Event.current.type == EventType.KeyDown)
         {
-            Application.LoadLevel("TestMain");
+            Application.LoadLevel("TitleScene");
         }
     }
 	
