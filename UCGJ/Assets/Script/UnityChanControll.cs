@@ -22,8 +22,8 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			set{
 				power = value;
 				bb.setPower(value);
-//				gauge.setGauge(value);
-//					count.setPoints(value);
+				gauge.setGauge(value);
+				count.setPoints(value);
 			}
 		}
 
@@ -103,7 +103,10 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 
 	// Use this for initialization
 	void Start () {
-		controller = this.GetComponent<CharacterController>();
+		controller = this.GetComponent
+		
+		
+		CharacterController>();
 		player.bb = GetComponentInChildren<BillBoard>();
 		baseScale = this.transform.localScale;
 		charge = 0;
@@ -162,7 +165,9 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 					}
 				}
 				player.bb.SetRun(true);
+
 				attackPow = Mathf.Clamp(charge * 3,1.0f,3.0f) * speed;
+
 				setState(UCState.Attack);
 			}else{
 				charge += Time.deltaTime*3;
