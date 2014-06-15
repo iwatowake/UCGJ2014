@@ -154,14 +154,20 @@ public class TitleUnityChanControll : MonoBehaviour{
 			if(c.transform.name == "TwoPlayer"){
 				Destroy(c.gameObject);
 				Debug.Log ("2");
+				PlayerPrefs.SetInt(GameStateManager.PLAYER_NUM_KEY, 2);
+				Application.LoadLevel("StageSelect");
 			}
 			if(c.transform.name == "ThreePlayer"){
 				Destroy(c.gameObject);
 				Debug.Log ("3");
+				PlayerPrefs.SetInt(GameStateManager.PLAYER_NUM_KEY, 3);
+				Application.LoadLevel("StageSelect");
 			}
 			if(c.transform.name == "FourPlayer"){
 				Destroy(c.gameObject);
 				Debug.Log ("4");
+				PlayerPrefs.SetInt(GameStateManager.PLAYER_NUM_KEY, 4);
+				Application.LoadLevel("StageSelect");
 			}
 		}
 	}
