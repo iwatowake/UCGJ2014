@@ -10,8 +10,8 @@ public class Gimmick0 : MonoBehaviour {
 //			Destroy(gameObject);
 //			Instantiate(Resources.Load("Gimmick/Gimmick01"), transform.position, new Quaternion());
 			Instantiate(obj, transform.position, new Quaternion());
-			UnityChanControll uc = collision.GetComponent<UnityChanControll>();
-			uc.OnCollImpact((collision.transform.position - this.transform.position) * 5);
+//			UnityChanControll uc = collision.GetComponent<UnityChanControll>();
+//			uc.OnCollImpact((collision.transform.position - this.transform.position) * 5);
 		}
 	}
 }
