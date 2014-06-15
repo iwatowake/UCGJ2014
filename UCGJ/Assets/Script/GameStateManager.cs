@@ -9,7 +9,9 @@ public class GameStateManager : SingletonMonoBehaviour<GameStateManager> {
 	public Sprite big;
 
 	public GameObject[] stages;
-	public const string STAGE_KEY = "Stage_Key";
+	public const string STAGE_KEY  = "Stage_Key";
+	public const string PLAYER_NUM_KEY = "Player_Num_Key";
+
 	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad(this);
