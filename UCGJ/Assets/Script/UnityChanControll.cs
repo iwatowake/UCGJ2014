@@ -3,10 +3,10 @@ using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
-	private const float gravity = -9.8f;
-	private const int BIG_SPEED = 4;
-	private const int NORM_SPEED = 10;
-	private const int LITTLE_SPEED = 20;
+	private const float gravity = -20.8f;
+	private const int BIG_SPEED = 10;
+	private const int NORM_SPEED = 20;
+	private const int LITTLE_SPEED = 30;
 	[System.Serializable]
 	public class Player{
 		public int id;
@@ -47,14 +47,14 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 		GetPower(-pow);
 
 		setState(UCState.OnDamage,1.5f);
-		spawnUni8(pow);
+		spawnUni8(6);
 	}
 	public void GetPower(int pow){
 		player.AddPower(pow);
-		if(player.Power > 50){
+		if(player.Power > 69){
 			speed = BIG_SPEED;
 			setSize(2.0f);
-		}else if(player.Power > 20){
+		}else if(player.Power > 39){
 			speed = NORM_SPEED;
 			setSize(1.0f);
 		}else if (player.Power > 0){
@@ -162,17 +162,17 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 					}
 				}
 				player.bb.SetRun(true);
-				attackPow = Mathf.Clamp(charge * 2,1.0f,3.0f) * speed;
+				attackPow = Mathf.Clamp(charge * 3,1.0f,3.0f) * speed;
 				setState(UCState.Attack);
 			}else{
-				charge += Time.deltaTime;
+				charge += Time.deltaTime*3;
 			}
 //			GameObject.FindG
 			break;
 		case UCState.Attack:
 			if(charge > 0){
 				controller.Move(attackDir.normalized*Time.deltaTime * attackPow);
-				charge -= Time.deltaTime * 3;
+				charge -= Time.deltaTime * 5;
 			}else{
 				setState(UCState.Idle);
 				attackDir = Vector3.zero;
@@ -189,8 +189,8 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			break;
 		case UCState.Impacted:
 			if(impactPow.magnitude > 0.1f){
-				controller.Move(impactPow * Time.deltaTime);
-				impactPow *= 0.99f;
+				controller.Move(impactPow* 10 * Time.deltaTime);
+				impactPow *= 0.95f;
 			}else{
 				setState(UCState.Idle);
 			}
@@ -203,14 +203,18 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 			UnityChanControll uc = c.transform.GetComponent<UnityChanControll>();
 			if(uc.ucState == UCState.Attack
 			   && (this.ucState == UCState.Idle||this.ucState == UCState.Charge||uc.ucState == UCState.Pararaise)){
-				this.Damage(uc.player.Power/20 + 1);
-				this.OnCollImpact(-c.normal * uc.player.Power / 10f);
+				this.Damage(30);
+				Vector3 nom = -c.normal;
+				nom.y = 0;
+				this.OnCollImpact(nom * 15.0f);
 				return;
 			}else
 			if(this.ucState == UCState.Attack
 				  && (uc.ucState == UCState.Idle||uc.ucState == UCState.Charge||uc.ucState == UCState.Pararaise)){
-				uc.Damage(this.player.Power/20 + 1);
-				uc.OnCollImpact(-c.normal * uc.player.Power / 10f);
+				uc.Damage(30);
+				Vector3 nom = -c.normal;
+				nom.y = 0;
+				uc.OnCollImpact(nom * 15.0f);
 				return;
 			}
 		}
@@ -305,7 +309,7 @@ public class UnityChanControll : MonoBehaviour, UnityChanCollisionInterface {
 	public void OnCollImpact(Vector3 pow){
 		Debug.Log ("CollI:" + pow);
 		impactPow = pow;
-			if(ucState == UCState.Idle || ucState == UCState.Charge){
+			if(ucState == UCState.Idle || ucState == UCState.Charge || ucState == UCState.OnDamage){
 				setState(UCState.Impacted);
 			}
 	}
